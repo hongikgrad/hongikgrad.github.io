@@ -1,0 +1,26 @@
+{
+    "arrowParens": "always",
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": false,
+    "quoteProps": "as-needed",
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "bracketSameLine": true,
+    "parser": "babel-ts",
+    "endOfLine": "auto",
+    "htmlWhitespaceSensitivity": "css",
+    "printWidth": 80,
+    "proseWrap": "preserve",
+    "requirePragma": false,
+    "insertPragma": false,
+    "overrides": [ 
+      {
+        "files": "*.json",
+        "options": {
+          "printWidth": 200
+        }
+      }
+    ]
+  }
