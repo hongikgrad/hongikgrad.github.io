@@ -20,12 +20,19 @@ const StyledButton = styled.div<{
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  margin: 0.5rem;
+  margin: 1rem;
   font-family: Noto Sans KR;
-  a:hover {
-    color: #999999;
-  }
+
   -webkit-tap-highlight-color: transparent;
+
+  transition: all 1.5s, color 0.5s;
+  :hover {
+    opacity: 0.4;
+  }
+
+  :active {
+    opcaity: 0.3;
+  }
 `;
 
 export default function Button(props: ButtonProps) {

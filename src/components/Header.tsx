@@ -7,6 +7,8 @@ const StyledHeader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 `;
 
 export interface HeaderProps {}

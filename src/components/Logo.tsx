@@ -12,6 +12,11 @@ const StyledLogo = styled.div`
   font-family: GothamSSmBookItalic;
   color: black;
   flex-direction: column;
+
+  transition: all 1s, color 0.5s;
+  :hover {
+    opacity: 0.3;
+  }
 `;
 
 const StyledLink = styled(Link)`

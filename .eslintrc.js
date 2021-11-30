@@ -26,6 +26,7 @@ module.exports = {
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-module-boundary-types": 0,
     "@typescript-eslint/no-unused-vars": 0,
+    "@typescript-eslint/no-explicit-any": "off",
     "prettier/prettier": "error",
   },
 };
