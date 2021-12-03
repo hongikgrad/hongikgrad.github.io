@@ -1,14 +1,21 @@
 import axios from "axios";
 import qs from "qs";
+import * as config from "../config";
 
 const LOGIN_USER = "USER/login_user";
 const LOGOUT_USER = "USER/logout_user";
 const AUTH_USER = "USER/auth";
 
-export function loginUser(data: any) {
+const BASE_URL = config.API_BASE_URL + "";
+
+export function loginUser(data: any, config: any) {
   const request = axios
-    .post(`api/auth/token`, data)
-    .then((response) => response.data);
+    .post(BASE_URL + "/auth/token", data, config)
+    .then((res) => {
+      console.log(res);
+      console.log(res.data);
+      return res.data;
+    });
 
   return {
     type: LOGIN_USER,
@@ -39,7 +46,7 @@ export function auth() {
 export default function (state = {}, action: any) {
   switch (action.type) {
     case LOGIN_USER:
-      return { ...state, loginSucces: action.payload };
+      return { ...state, isLogin: action.payload };
     case AUTH_USER:
       return { ...state, userData: action.payload };
     case LOGOUT_USER:
