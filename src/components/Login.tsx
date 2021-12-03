@@ -3,6 +3,8 @@ import * as React from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../modules/auth";
 
 export interface LoginProps {}
 
@@ -75,13 +77,14 @@ const StyledButton = styled.button`
 export default function Login(props: LoginProps) {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
+  const dispatch = useDispatch();
   const onSubmitHandler = (e: any) => {
     e.preventDefault();
-    const url = "https://localhost:8080/hello";
-    axios.get(url).then((res) => {
-      console.log(res);
-      alert(res);
-    });
+    const data = { USER_ID: id, PASSWD: pw };
+    const config = {
+      withCredentials: true,
+    };
+    dispatch(loginUser(data, config));
   };
 
   const onIdHandler = (e: any) => {

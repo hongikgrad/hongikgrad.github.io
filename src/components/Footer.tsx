@@ -14,7 +14,7 @@ const Block = styled.div`
 `;
 
 const GithubLogo = styled.img`
-  width: 2rem;
+  height: 2.5rem;
   margin-left: 0.5rem;
   margin-right: 0.5rem;
   transition: all 0.9s, color 0.3s;
@@ -24,11 +24,12 @@ const GithubLogo = styled.img`
 `;
 
 const StyledLink = styled.a`
+  font-size: 1.75rem;
   margin-left: 0.5rem;
   margin-right: 0.5rem;
   text-decoration: none;
   color: black;
-  font-weight: 1000;
+  font-weight: 900;
   transition: all 1s, color 0.5s;
   :hover {
     opacity: 0.5;
