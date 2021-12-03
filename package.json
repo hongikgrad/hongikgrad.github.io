@@ -30,7 +30,7 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "HTTPS=true SSL_CRT_FILE=localhost+2.pem SSL_KEY_FILE=localhost+2-key.pem react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -67,6 +67,7 @@
     "eslint-plugin-prettier": "^3.4.1",
     "eslint-plugin-react": "^7.27.0",
     "gh-pages": "^2.0.1",
+    "http-proxy-middleware": "^2.0.1",
     "prettier": "^2.5.0"
   }
 }
