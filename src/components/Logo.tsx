@@ -8,7 +8,7 @@ const StyledLogo = styled.div`
   display: flex;
   justify-content: left;
   align-items: center;
-  font-size: 2.4rem;
+  font-size: 2.7rem;
   font-family: GothamSSmBookItalic;
   color: black;
   flex-direction: column;
@@ -25,8 +25,8 @@ const StyledLink = styled(Link)`
   -webkit-tap-highlight-color: transparent;
 `;
 
-const Red = styled.span`
-  color: red;
+const Point = styled.span`
+  color: #8b00ff;
 `;
 
 export interface LogoProps {}
@@ -35,9 +35,8 @@ export default function Logo(props: LogoProps) {
   return (
     <StyledLink to="/">
       <StyledLogo>
-        <div>hongik</div>
         <div>
-          <Red>-</Red>grad<Red>.</Red>github<Red>.</Red>io
+          h<Point>o</Point>ngikgrad
         </div>
       </StyledLogo>
     </StyledLink>
