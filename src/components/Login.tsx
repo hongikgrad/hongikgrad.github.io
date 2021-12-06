@@ -4,12 +4,21 @@ import { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useDispatch } from "react-redux";
+import * as config from "../config";
+import { useNavigate } from "react-router";
 import { loginUser } from "../modules/auth";
+import Spinner from "./Spinner";
+
+const BASE_URL = config.API_BASE_URL as string;
 
 export interface LoginProps {}
 
 const LoginBlock = styled.form`
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0.1rem;
 `;
 
 const InputBlock = styled.span`
@@ -63,8 +72,8 @@ const StyledButton = styled.button`
   transition: all 0.9s, color 0.3s;
   font-size: inherit;
   :hover {
-    box-shadow: 15rem 0 0 0 rgba(0, 0, 0, 0.5) inset;
-    color: #fff;
+    box-shadow: 15rem 0 0 0 rgba(0, 0, 0, 1) inset;
+    color: #ffe;
   }
 
   background-color: #c0c0c0;
@@ -77,14 +86,35 @@ const StyledButton = styled.button`
 export default function Login(props: LoginProps) {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [authAlert, setAuthAlert] = useState(false);
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const onSubmitHandler = (e: any) => {
     e.preventDefault();
+    setLoading(true);
     const data = { USER_ID: id, PASSWD: pw };
     const config = {
       withCredentials: true,
     };
-    dispatch(loginUser(data, config));
+
+    const request = axios
+      .post(BASE_URL + "/auth/token", data, config)
+      .then((res) => {
+        setLoading(false);
+        if (res.status == 200) {
+          dispatch(loginUser(res.data.id));
+          navigate("/result");
+        } else {
+          setAuthAlert(true);
+        }
+      })
+      .catch(() => {
+        setAuthAlert(true);
+        setLoading(false);
+      });
   };
 
   const onIdHandler = (e: any) => {
@@ -94,24 +124,46 @@ export default function Login(props: LoginProps) {
   const onPwHandler = (e: any) => {
     setPw(e.target.value);
   };
+
   return (
-    <LoginBlock onSubmit={onSubmitHandler}>
-      <InputBlock>
-        <StyledInput
-          tabIndex={1}
-          placeholder="학번을 입력하세요."
-          onChange={onIdHandler}
-        />
-        <StyledInput
-          tabIndex={2}
-          type="password"
-          placeholder="비밀번호를 입력하세요."
-          onChange={onPwHandler}
-        />
-        <StyledButton type="submit" tabIndex={3}>
-          로그인
-        </StyledButton>
-      </InputBlock>
-    </LoginBlock>
+    <React.Fragment>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <React.Fragment>
+          <LoginBlock onSubmit={onSubmitHandler}>
+            <InputBlock>
+              <StyledInput
+                tabIndex={1}
+                placeholder="학번을 입력하세요."
+                onChange={onIdHandler}
+              />
+              <StyledInput
+                tabIndex={2}
+                type="password"
+                placeholder="비밀번호를 입력하세요."
+                onChange={onPwHandler}
+              />
+              {loading ? (
+                <Spinner />
+              ) : (
+                <StyledButton type="submit" tabIndex={3}>
+                  로그인
+                </StyledButton>
+              )}
+            </InputBlock>
+          </LoginBlock>
+          {authAlert && (
+            <React.Fragment>
+              <br />
+              <div>
+                <a href="https://www.hongik.ac.kr/login.do"> 여기 </a> 에서
+                로그인을 해주시고 다시 시도해주세요.
+              </div>
+            </React.Fragment>
+          )}
+        </React.Fragment>
+      )}
+    </React.Fragment>
   );
 }
