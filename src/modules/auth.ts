@@ -6,27 +6,21 @@ const LOGIN_USER = "USER/login_user";
 const LOGOUT_USER = "USER/logout_user";
 const AUTH_USER = "USER/auth";
 
-const BASE_URL = config.API_BASE_URL + "";
+const BASE_URL = config.API_BASE_URL as string;
 
-export function loginUser(data: any, config: any) {
-  const request = axios
-    .post(BASE_URL + "/auth/token", data, config)
-    .then((res) => {
-      console.log(res);
-      console.log(res.data);
-      return res.data;
-    });
+type LoginDataProps = {
+  USER_ID: string;
+};
 
+export function loginUser(userData: LoginDataProps) {
   return {
     type: LOGIN_USER,
-    payload: request,
+    payload: userData,
   };
 }
 
 export function logoutUser() {
-  const request = axios
-    .delete(`api/auth/token`)
-    .then((response) => response.data);
+  const request = axios.delete(`auth/token`).then((response) => response.data);
 
   return {
     type: LOGOUT_USER,
@@ -35,7 +29,7 @@ export function logoutUser() {
 }
 
 export function auth() {
-  const request = axios.get(`api/auth/token`).then((response) => response.data);
+  const request = axios.get(`auth/token`).then((response) => response.data);
 
   return {
     type: AUTH_USER,
@@ -43,7 +37,20 @@ export function auth() {
   };
 }
 
-export default function (state = {}, action: any) {
+type AuthAction =
+  | ReturnType<typeof loginUser>
+  | ReturnType<typeof logoutUser>
+  | ReturnType<typeof auth>;
+
+type AuthState = {
+  state: boolean;
+};
+
+const initialState: AuthState = {
+  state: false,
+};
+
+export default function (state: AuthState = initialState, action: AuthAction) {
   switch (action.type) {
     case LOGIN_USER:
       return { ...state, isLogin: action.payload };
