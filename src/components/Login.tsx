@@ -125,6 +125,16 @@ export default function Login(props: LoginProps) {
     setPw(e.target.value);
   };
 
+  const onCookieCheckHandler = (e: any) => {
+    const config = {
+      withCredentials: true,
+    };
+    axios.get(BASE_URL + "/auth/token", config).then((res) => {
+      console.log(res);
+      console.log(res.data);
+    });
+  };
+
   return (
     <React.Fragment>
       {loading ? (
@@ -144,13 +154,12 @@ export default function Login(props: LoginProps) {
                 placeholder="비밀번호를 입력하세요."
                 onChange={onPwHandler}
               />
-              {loading ? (
-                <Spinner />
-              ) : (
-                <StyledButton type="submit" tabIndex={3}>
-                  로그인
-                </StyledButton>
-              )}
+              <StyledButton type="submit" tabIndex={3}>
+                로그인
+              </StyledButton>
+              <StyledButton type="button" onClick={onCookieCheckHandler}>
+                쿠키
+              </StyledButton>
             </InputBlock>
           </LoginBlock>
           {authAlert && (
