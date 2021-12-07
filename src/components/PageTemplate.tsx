@@ -5,32 +5,20 @@ import Footer from "./Footer";
 import Header from "./Header";
 
 const PageStyle = styled.div`
+  min-height: 100vh;
   background-color: #f7f8f9;
-  height: 100%;
-  max-height: 768px;
-
-  justify-content: space-between;
-  align-items: space-between;
   width: 24rem;
   margin-left: auto;
   margin-right: auto;
+  transition: opacity 0.3s;
   display: flex;
   flex-direction: column;
-
-  transition: opacity 0.3s;
-  .entering,
-  .entered {
-    position: relative;
-    opacity: 1;
-  }
-  .exiting,
-  .exited {
-    position: absolute;
-    opacity: 0;
-  }
+  justify-content: space-between;
 `;
 
 const StyledBody = styled.div`
+  margin-top: 2rem;
+  margin-bottom: 2rem;
   text-align: center;
   display: flex;
   justify-content: center;

@@ -1,6 +1,9 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
+html {
+  height:100%;
+}
 body {
   margin: 0;
   padding: 0;
@@ -10,6 +13,7 @@ body {
   color: #212529;
   box-sizing: border-box;
   background-color:#ffffff;
+  height:inherit;
 }
 * {
   box-sizing: inherit;
@@ -25,7 +29,7 @@ input, button, textarea {
   }
 }
 html, body, #root {
-  height: 100%;
+  min-height: 100vh;
 }
 
 a {
