@@ -11,29 +11,20 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import "./App.css";
 import GlobalStyles from "./GlobalStyles";
 
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-`;
-
 export interface AppProps {}
 
 export default function App(props: AppProps) {
   return (
     <>
       <GlobalStyles />
-      <Container>
-        <Router>
-          <Routes location={location}>
-            <Route path="/" element={<MainPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/result" element={<ResultPage />} />
-            <Route path="/feedback" element={<FeedbackPage />} />
-          </Routes>
-        </Router>
-      </Container>
+      <Router>
+        <Routes location={location}>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/result" element={<ResultPage />} />
+          <Route path="/feedback" element={<FeedbackPage />} />
+        </Routes>
+      </Router>
     </>
   );
 }

@@ -1,13 +1,12 @@
 import * as React from "react";
-import styled, { createGlobalStyle } from "styled-components";
-import { mediaQuery } from "../styles/media";
+import styled from "styled-components";
 import Footer from "./Footer";
 import Header from "./Header";
 
 const PageStyle = styled.div`
-  min-height: 100vh;
+  min-height: calc(var(--vh) * 100);
   background-color: #f7f8f9;
-  width: 24rem;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
   transition: opacity 0.3s;
@@ -31,10 +30,21 @@ export interface PageTemplateProps {
 }
 
 export default function PageTemplate(props: PageTemplateProps) {
+  const setVh = () => {
+    document.documentElement.style.setProperty(
+      "--vh",
+      `${window.innerHeight * 0.01}px`
+    );
+  };
+  window.addEventListener("resize", setVh);
+
+  React.useLayoutEffect(() => {
+    setVh();
+  }, []);
   return (
-    <PageStyle>
+    <PageStyle id="layout">
       <Header />
-      <StyledBody>{props.children}</StyledBody>
+      <StyledBody id="content">{props.children}</StyledBody>
       <Footer />
     </PageStyle>
   );
