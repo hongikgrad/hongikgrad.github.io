@@ -2,27 +2,19 @@ import * as React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-const StyledLogo = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  font-size: 2.7rem;
-  font-family: GothamSSmBookItalic;
-  color: black;
-  flex-direction: column;
-
-  transition: all 1s, color 0.5s;
-  :hover {
-    opacity: 0.3;
-  }
-`;
-
 const StyledLink = styled(Link)`
-  height: 100%;
+  color: black;
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
+  font-family: "Montserrat", sans-serif;
+  font-size: 34px;
+  :hover {
+    opacity: 0.5;
+  }
+  @media (max-width: 768px) {
+    color: black;
+    font-size: 20px;
+  }
 `;
 
 const Point = styled.span`
@@ -34,11 +26,9 @@ export interface LogoProps {}
 export default function Logo(props: LogoProps) {
   return (
     <StyledLink to="/">
-      <StyledLogo>
-        <div>
-          h<Point>o</Point>ngikgrad
-        </div>
-      </StyledLogo>
+      <div>
+        H<Point>O</Point>NGIKGRAD
+      </div>
     </StyledLink>
   );
 }

@@ -33,6 +33,7 @@ const StyledInput = styled.input`
   margin: 0.1rem;
   border: 0.1rem black solid;
   font-size: inherit;
+  font-family: "Noto Sans KR", sans-serif;
 
   padding: 1rem;
 
@@ -78,8 +79,7 @@ const StyledButton = styled.button`
 
   background-color: #c0c0c0;
 
-  font-family: Noto Sans KR;
-  font-weight: 900;
+  font-weight: 700;
   border-radius: 0.5rem;
 `;
 
