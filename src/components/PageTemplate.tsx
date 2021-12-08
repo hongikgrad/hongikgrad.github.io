@@ -1,11 +1,15 @@
 import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { RootState } from "../modules";
+import { setMenuClose, ToggleMenu } from "../modules/menu";
 import Footer from "./Footer";
 import Header from "./Header";
+import Menu from "./Menu";
 
 const PageStyle = styled.div`
   min-height: calc(var(--vh) * 100);
-  background-color: #f7f8f9;
+  background-color: white;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
@@ -23,6 +27,7 @@ const StyledBody = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  font-family: "Noto Sans KR", sans-serif;
 `;
 
 export interface PageTemplateProps {
@@ -30,6 +35,7 @@ export interface PageTemplateProps {
 }
 
 export default function PageTemplate(props: PageTemplateProps) {
+  const dispatch = useDispatch();
   const setVh = () => {
     document.documentElement.style.setProperty(
       "--vh",
@@ -38,11 +44,13 @@ export default function PageTemplate(props: PageTemplateProps) {
   };
   window.addEventListener("resize", setVh);
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     setVh();
+    dispatch(setMenuClose());
   }, []);
   return (
     <PageStyle id="layout">
+      <Menu />
       <Header />
       <StyledBody id="content">{props.children}</StyledBody>
       <Footer />
