@@ -1,26 +1,29 @@
+import { Stack } from "@mui/material";
 import * as React from "react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { RootState } from "../modules";
 import BurgerMenu from "./BurgerMenu";
-import Logo from "./Logo";
+import LoginButton from "./button/LoginButton";
+import LogoutButton from "./button/LogoutButton";
+import LogoButton from "./LogoButton";
 
-const StyledHeader = styled.div`
+const HeaderWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-
-  @media (max-width: 900px) {
-    padding: 0 20px;
-    height: 40px;
-  }
+  width: 26rem;
 `;
 
 export interface HeaderProps {}
 
 export default function Header(props: HeaderProps) {
+  const isLogin = useSelector((state: RootState) => state.auth.isLogin);
   return (
-    <StyledHeader>
-      <Logo />
-      <BurgerMenu />
-    </StyledHeader>
+    <HeaderWrapper>
+      <LogoButton />
+      {/* <BurgerMenu /> */}
+      {isLogin ? <LogoutButton /> : <LoginButton />}
+    </HeaderWrapper>
   );
 }
