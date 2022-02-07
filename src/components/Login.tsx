@@ -8,79 +8,20 @@ import * as config from "../config";
 import { useNavigate } from "react-router";
 import { loginUser } from "../modules/auth";
 import Spinner from "./Spinner";
+import Input from "./input/Input";
+import Button from "./button/Button";
+import { Stack } from "@mui/material";
 
 const BASE_URL = config.API_BASE_URL as string;
 
 export interface LoginProps {}
 
-const LoginBlock = styled.form`
+const LoginWrapper = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: 0.1rem;
-`;
-
-const InputBlock = styled.span`
-  display: flex;
-  flex-direction: column;
-  font-size: 1rem;
-`;
-
-const StyledInput = styled.input`
-  width: 15rem;
-  height: 4rem;
-  margin: 0.1rem;
-  border: 0.1rem black solid;
-  font-size: inherit;
-  font-family: "Noto Sans KR", sans-serif;
-
-  padding: 1rem;
-
-  ::-webkit-input-placeholder {
-    transition: all 1s, color 0.5s;
-  }
-
-  ::placeholder {
-    opacity: 1;
-  }
-
-  :focus {
-    ::-webkit-input-placeholder {
-      transition: all 1s, color 0.5s;
-      color: transparent;
-    }
-  }
-
-  :hover {
-    ::-webkit-input-placeholder {
-      transition: all 1.5s, color 0.5s;
-      opacity: 0.3;
-    }
-  }
-
-  border-radius: 0.5rem;
-`;
-
-const StyledButton = styled.button`
-  width: 15rem;
-  height: 4rem;
-  margin: 0.1rem;
-  border: 0.1rem black solid;
-
-  cursor: pointer;
-  color: #333;
-  transition: all 0.9s, color 0.3s;
-  font-size: inherit;
-  :hover {
-    box-shadow: 15rem 0 0 0 rgba(0, 0, 0, 1) inset;
-    color: #ffe;
-  }
-
-  background-color: #c0c0c0;
-
-  font-weight: 700;
-  border-radius: 0.5rem;
 `;
 
 export default function Login(props: LoginProps) {
@@ -100,13 +41,13 @@ export default function Login(props: LoginProps) {
       withCredentials: true,
     };
 
-    const request = axios
+    axios
       .post(BASE_URL + "/auth/token", data, config)
       .then((res) => {
         setLoading(false);
         if (res.status == 200) {
-          dispatch(loginUser(res.data.id));
-          navigate("/result");
+          dispatch(loginUser());
+          navigate(-1);
         } else {
           setAuthAlert(true);
         }
@@ -136,32 +77,38 @@ export default function Login(props: LoginProps) {
   };
 
   return (
-    <React.Fragment>
+    <>
       {loading ? (
         <Spinner />
       ) : (
-        <React.Fragment>
-          <LoginBlock onSubmit={onSubmitHandler}>
-            <InputBlock>
-              <StyledInput
+        <>
+          <LoginWrapper onSubmit={onSubmitHandler}>
+            <Stack direction="column" spacing="0.5rem">
+              <Input
                 tabIndex={1}
+                width={26}
                 placeholder="학번을 입력하세요."
                 onChange={onIdHandler}
               />
-              <StyledInput
+              <Input
                 tabIndex={2}
+                width={26}
                 type="password"
                 placeholder="비밀번호를 입력하세요."
                 onChange={onPwHandler}
               />
-              <StyledButton type="submit" tabIndex={3}>
+              <Button type="submit" tabIndex={3} width={26}>
                 로그인
-              </StyledButton>
-              <StyledButton type="button" onClick={onCookieCheckHandler}>
+              </Button>
+              <Button
+                type="button"
+                tabIndex={4}
+                onClick={onCookieCheckHandler}
+                width={26}>
                 쿠키
-              </StyledButton>
-            </InputBlock>
-          </LoginBlock>
+              </Button>
+            </Stack>
+          </LoginWrapper>
           {authAlert && (
             <React.Fragment>
               <br />
@@ -171,8 +118,8 @@ export default function Login(props: LoginProps) {
               </div>
             </React.Fragment>
           )}
-        </React.Fragment>
+        </>
       )}
-    </React.Fragment>
+    </>
   );
 }
