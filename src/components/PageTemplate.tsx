@@ -17,6 +17,7 @@ const PageStyle = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
 `;
 
 const StyledBody = styled.div`
@@ -50,7 +51,7 @@ export default function PageTemplate(props: PageTemplateProps) {
   }, []);
   return (
     <PageStyle id="layout">
-      <Menu />
+      {/* <Menu /> */}
       <Header />
       <StyledBody id="content">{props.children}</StyledBody>
       <Footer />
