@@ -8,23 +8,27 @@ const AUTH_USER = "USER/auth";
 
 const BASE_URL = config.API_BASE_URL as string;
 
+// type LoginDataProps = {
+//   USER_ID: string;
+// };
+
 type LoginDataProps = {
-  USER_ID: string;
+  isLogin: boolean;
 };
 
-export function loginUser(userData: LoginDataProps) {
+export function loginUser() {
   return {
     type: LOGIN_USER,
-    payload: userData,
+    // payload: isLogin,
   };
 }
 
 export function logoutUser() {
-  const request = axios.delete(`auth/token`).then((response) => response.data);
+  // const request = axios.delete(`auth/token`).then((response) => response.data);
 
   return {
     type: LOGOUT_USER,
-    payload: request,
+    // payload: false,
   };
 }
 
@@ -44,20 +48,22 @@ type AuthAction =
 
 type AuthState = {
   state: boolean;
+  isLogin: boolean;
 };
 
 const initialState: AuthState = {
   state: false,
+  isLogin: false,
 };
 
 export default function (state: AuthState = initialState, action: AuthAction) {
   switch (action.type) {
     case LOGIN_USER:
-      return { ...state, isLogin: action.payload };
-    case AUTH_USER:
-      return { ...state, userData: action.payload };
+      return { ...state, isLogin: true };
+    // case AUTH_USER:
+    //   return { ...state, userData: action.payload };
     case LOGOUT_USER:
-      return { ...state };
+      return { ...state, isLogin: false };
     default:
       return state;
   }
