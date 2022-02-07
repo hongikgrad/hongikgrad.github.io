@@ -1,6 +1,29 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
+html {
+  font-size: 30px;
+  width: 100%;
+}
+
+@media screen and (max-width: 2559px) {
+    html {
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 1023px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    html {
+        font-size: 12px;
+    }
+}
+
 body {
   margin: 0;
   padding: 0;
