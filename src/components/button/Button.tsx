@@ -1,43 +1,47 @@
 import * as React from "react";
 import styled from "styled-components";
 
-export interface ButtonProps {
-  children?: React.ReactNode;
-  size?: number;
+const StyledButton = styled.button<{
   width?: number;
   height?: number;
   color?: string;
-}
-
-const StyledButton = styled.div<{
-  height?: number;
-  width?: number;
-  color?: string;
+  hover?: boolean;
 }>`
-  height: ${(props) => props.height}rem;
-  width: ${(props) => props.width}rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  margin: 1rem;
-  font-family: Noto Sans KR;
+  width: ${({ width }) => (width ? width : 15)}rem;
+  height: ${({ height }) => (height ? height : 4)}rem;
+  // margin: 0.1rem;
+  border: 0.1rem black solid;
 
-  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  color: #333;
+  transition: all 0.9s, color 0.3s;
+  font-size: inherit;
 
-  transition: all 1.5s, color 0.5s;
   :hover {
-    opacity: 0.4;
+    opacity: 0.7;
+  }
+  :active {
+    transition: all 0.1s;
+    background-color: #808080;
   }
 
-  :active {
-    opcaity: 0.3;
-  }
+  background-color: ${({ color }) => (color ? color : "#c0c0c0")};
+
+  font-weight: 700;
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
-export default function Button(props: ButtonProps) {
+export default function Button(props: any) {
   return (
-    <StyledButton height={props.height} width={props.width} color={props.color}>
+    <StyledButton
+      width={props.width}
+      height={props.height}
+      color={props.color}
+      hover={props.hover}
+      {...props}>
       {props?.children}
     </StyledButton>
   );
