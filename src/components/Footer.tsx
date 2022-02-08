@@ -39,8 +39,16 @@ const StyledLink = styled.a`
 export default function Footer(props: FooterProps) {
   return (
     <Block>
-      <StyledLink href="https://github.com/hongik-grad">&lt;/&gt;</StyledLink>
-      <a href="https://github.com/ujunhwan">
+      <StyledLink
+        href="https://github.com/hongikgrad"
+        target="_blank"
+        rel="noopener noreferrer">
+        &lt;/&gt;
+      </StyledLink>
+      <a
+        href="https://github.com/ujunhwan"
+        target="_blank"
+        rel="noopener noreferrer">
         <GithubLogo src="https://cdn-icons-png.flaticon.com/512/25/25231.png" />
       </a>
     </Block>
