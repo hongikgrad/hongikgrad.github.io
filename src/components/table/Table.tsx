@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledTable = styled.table`
-  width: 27rem;
+  width: 26rem;
   border-collapse: collapse;
 
   th {
@@ -22,13 +22,13 @@ const StyledTable = styled.table`
       color: #333;
     }
     a:visited {
-      color: #c0c0c0;
+      color: #000;
     }
     a:hover {
-      color: #8b00ff;
+      color: #808080;
     }
     a:active {
-      color: #8b00ff;
+      color: #808080;
     }
   }
 
