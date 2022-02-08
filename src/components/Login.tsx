@@ -24,6 +24,26 @@ const LoginWrapper = styled.form`
   margin: 0.1rem;
 `;
 
+function Notice(props: any) {
+  return (
+    <>
+      <p style={{ width: "26rem" }}>
+        <div>본 사이트는 아이디, 비밀번호를 수집하지 않습니다!</div>
+        <div>
+          Jsoup을 통해 얻어진 쿠키를 이용해 로그인 처리를 하며, 모든 코드는{" "}
+          <a
+            href="https://github.com/hongikgrad"
+            target="_blank"
+            rel="noopener noreferrer">
+            GitHub
+          </a>
+          에 올라가 있습니다.
+        </div>
+      </p>
+    </>
+  );
+}
+
 export default function Login(props: LoginProps) {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
@@ -82,6 +102,7 @@ export default function Login(props: LoginProps) {
         <Spinner />
       ) : (
         <>
+          <Notice />
           <LoginWrapper onSubmit={onSubmitHandler}>
             <Stack direction="column" spacing="0.5rem">
               <Input
@@ -100,18 +121,19 @@ export default function Login(props: LoginProps) {
               <Button type="submit" tabIndex={3} width={26}>
                 로그인
               </Button>
-              <Button
+              {/* <Button
                 type="button"
                 tabIndex={4}
                 onClick={onCookieCheckHandler}
                 width={26}>
                 쿠키
-              </Button>
+              </Button> */}
             </Stack>
           </LoginWrapper>
           {authAlert && (
             <React.Fragment>
               <br />
+              <div>계속해서 로그인에 실패하신다면</div>
               <div>
                 <a href="https://www.hongik.ac.kr/login.do"> 여기 </a> 에서
                 로그인을 해주시고 다시 시도해주세요.
