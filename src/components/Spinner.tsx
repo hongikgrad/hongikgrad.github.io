@@ -23,8 +23,8 @@ const StyledSpinner = styled.div`
 
   border: 8px solid transparent;
   border-radius: 50%;
-  border-top-color: #8b00ff;
-  border-bottom-color: #8b00ff;
+  border-top-color: #d3d3d3;
+  border-bottom-color: #d3d3d3;
 
   transition: 3s;
   animation: ${spin} 1s linear infinite;
@@ -33,7 +33,7 @@ const StyledSpinner = styled.div`
 const Circle = styled.div`
   width: 3rem;
   height: 3rem;
-  background-color: #f7f8f9;
+  background-color: #fff;
   border-radius: 50%;
 `;
 
