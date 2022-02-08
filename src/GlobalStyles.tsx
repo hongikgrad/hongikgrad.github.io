@@ -56,6 +56,21 @@ a {
   text-decoration:none
 }
 
+a:link {
+  color: #333;
+}
+
+a:visited {
+  color: #000;
+}
+
+a:hover {
+  color: #808080;
+}
+
+a:active {
+  color: #808080;
+}
 `;
 
 export default GlobalStyles;
