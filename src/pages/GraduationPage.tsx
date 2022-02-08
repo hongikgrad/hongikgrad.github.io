@@ -30,27 +30,42 @@ const GraduationWrapper = styled.div`
   width: 26rem;
 `;
 
+const StyledSelect = styled.select<{ width?: number }>`
+  width: ${({ width }) => (width ? width : 12)}rem;
+  height: 2rem;
+  text-align-last: center;
+  text-align: center;
+  border: 0.1rem black solid;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  font-weight: 700;
+`;
+
+function NotFound(props: any) {
+  return <div style={{ width: "100%" }}>수강한 과목이 없습니다.</div>;
+}
+
 function MajorSelection(props: any) {
   const onChange: () => void = props.onChange;
   return (
-    <select name="major" onChange={onChange}>
+    <StyledSelect name="major" onChange={onChange}>
       <option value="ENG_EE">전자전기공학부</option>
       <option value="ENG_CS">컴퓨터공학과</option>
       <option value="ENG_IE">산업공학과</option>
       <option value="ENG_CHE">화학공학과</option>
       <option value="ENG_ME">기계시스템공학부</option>
       <option value="ENG_MSE">신소재공학과</option>
-    </select>
+    </StyledSelect>
   );
 }
 
 function AbeekSelection(props: any) {
   const onChange: () => void = props.onChange;
   return (
-    <select name="abeek" onChange={onChange}>
+    <StyledSelect name="abeek" onChange={onChange} width={4}>
       <option value="false">비공학</option>
       <option value="true">공학</option>
-    </select>
+    </StyledSelect>
   );
 }
 
@@ -61,7 +76,7 @@ function CourseList(props: any) {
       {courses && courses.length > 0 ? (
         <Table rows={courses} columns={["강의명", "학수번호", "학점"]} />
       ) : (
-        <div>수강한 과목이 없습니다.</div>
+        <NotFound />
       )}
     </>
   );
@@ -75,7 +90,11 @@ function SubField(props: any) {
         subfield.map((field: any, index: number) => {
           const courses: any = field.courseList;
           return (
-            <Stack key={index} alignItems="flex-start" spacing="1rem">
+            <Stack
+              key={index}
+              alignItems="flex-start"
+              spacing="1rem"
+              width="100%">
               <a href="/courses" target="_blank" rel="noopener noreferrer">
                 <h3>{field.field}</h3>
               </a>
@@ -96,7 +115,7 @@ function GraduationRequirements(props: any) {
       {requirements.map((req: any, index: number) => {
         const subfield: any = req.subField;
         return (
-          <Stack alignItems="center" key={index}>
+          <Stack alignItems="center" key={index} width="100%">
             <div style={req.isSatisfied ? satisfied : notSatisfied}>
               <h2>{req.mainField}</h2>
               <div>
@@ -108,7 +127,7 @@ function GraduationRequirements(props: any) {
               style={req.isSatisfied ? satisfied : notSatisfied}>
               <p>{req.briefing}</p>
             </div>
-            <div className="subfields">
+            <div className="subfields" style={{ width: "100%" }}>
               <SubField subfield={subfield} />
             </div>
             <br />
@@ -215,12 +234,20 @@ export default function GraduationPage(Props: Props) {
         ) : (
           <>
             <Stack spacing="1rem" justifyContent="center" alignItems="center">
-              <Stack direction="row" justifyContent="center">
+              <Stack
+                direction="row"
+                justifyContent="center"
+                spacing="1rem"
+                width="100%">
                 <MajorSelection onChange={handleMajorSelect} />
                 <AbeekSelection onChange={handleAbeekSelect} />
-                <TextButton onClick={handleGraduationCheck}>
+                <Button
+                  onClick={handleGraduationCheck}
+                  color="#fff"
+                  width={5}
+                  height={2}>
                   검사하기
-                </TextButton>
+                </Button>
               </Stack>
               <GraduationWrapper>
                 <TitleButton onClick={handleGraduationCheckTab}>
@@ -229,7 +256,7 @@ export default function GraduationPage(Props: Props) {
                 {!isDone && (
                   <>
                     <div>
-                      학과와 (공학/비공학) 여부를 선택하신 후{" "}
+                      학과와 (공학/비공학) 여부를 선택하신 후 <br />
                       <span style={bold}>검사하기</span> 버튼을 눌러주세요!
                     </div>
                     <br />
@@ -237,7 +264,8 @@ export default function GraduationPage(Props: Props) {
                 )}
                 {totalCredit == 0 && (
                   <div>
-                    새내기가 아닌데 수강 과목이 나오지 않는다면,{" "}
+                    새내기가 아닌데 수강 과목이 나오지 않는다면,
+                    <br />
                     <span style={bold}>수강 과목 불러오기</span> 버튼을
                     눌러주세요!
                   </div>
@@ -263,10 +291,14 @@ export default function GraduationPage(Props: Props) {
                     rows={courses}
                     columns={["강의명", "학수번호", "학점"]}
                   />
-
-                  <Button width={26} color="#e5e5e5" onClick={handleLoadButton}>
-                    수강 과목 불러오기
-                  </Button>
+                  {load == 0 && (
+                    <Button
+                      width={26}
+                      color="#e5e5e5"
+                      onClick={handleLoadButton}>
+                      수강 과목 불러오기
+                    </Button>
+                  )}
                 </>
               )}
             </Stack>
