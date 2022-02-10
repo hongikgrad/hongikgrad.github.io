@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "homepage": "https://hongik-grad.github.io",
+  "homepage": "https://hongikgrad.github.io",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.7.1",

@@ -34,6 +34,7 @@ body {
   box-sizing: border-box;
   background-color:#ffffff;
   height:inherit;
+  white-space : pre-line;
 }
 * {
   box-sizing: inherit;

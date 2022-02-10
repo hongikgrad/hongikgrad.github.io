@@ -21,27 +21,6 @@ export interface AppProps {}
 
 export default function App(props: AppProps) {
   const isLogin = useSelector((state: RootState) => state.auth.isLogin);
-  const dispatch = useDispatch();
-
-  /* 매번 로그인 인증 하는 녀석 */
-
-  // useEffect(() => {
-  //   console.log("APP");
-  //   const url = API_BASE_URL + "/auth/token";
-  //   const config = {
-  //     withCredentials: true,
-  //   };
-  //   axios
-  //     .get(url, config)
-  //     .then((res) => {
-  //       console.log(res);
-  //       dispatch(loginUser());
-  //     })
-  //     .catch((e) => {
-  //       console.log(e);
-  //       dispatch(logoutUser());
-  //     });
-  // }, []);
 
   return (
     <>
