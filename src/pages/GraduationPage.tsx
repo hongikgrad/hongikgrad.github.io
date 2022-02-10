@@ -89,13 +89,14 @@ function SubField(props: any) {
       {subfield &&
         subfield.map((field: any, index: number) => {
           const courses: any = field.courseList;
+          const url: string = field.url;
           return (
             <Stack
               key={index}
               alignItems="flex-start"
               spacing="1rem"
               width="100%">
-              <a href="/courses" target="_blank" rel="noopener noreferrer">
+              <a href={url} target="_blank" rel="noopener noreferrer">
                 <h3>{field.field}</h3>
               </a>
               <CourseList courses={courses} />
@@ -205,7 +206,6 @@ export default function GraduationPage(Props: Props) {
   };
 
   useEffect(() => {
-    console.log("useEffect!");
     const url = API_BASE_URL + "/users/courses";
     const config = {
       withCredentials: true,
