@@ -1,14 +1,14 @@
 import axios from "axios";
 import * as config from "../config";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import PageTemplate from "../components/PageTemplate";
 import { Stack } from "@mui/material";
 
 import SearchInput from "../components/input/SearchInput";
 import SearchButton from "../components/button/SearchButton";
 import Table from "../components/table/Table";
-import MoreButton from "../components/button/MoreButton";
 import Divider from "../components/Divider";
+import { useSearchParams } from "react-router-dom";
 
 const BASE_URL = config.API_BASE_URL as string;
 
@@ -39,6 +39,9 @@ type TipType = {
   tipTab: boolean;
 };
 
+const regex = /^[가-힣a-zA-Z():]{2,}$/;
+// const regex2 = /^[0-9\b -]{0,13}$/;
+
 function Tip(props: TipType) {
   return (
     <>
@@ -64,31 +67,18 @@ function Tip(props: TipType) {
   );
 }
 
-export default function CoursesPage(Props: Props) {
+export default function CoursesPage(props: any) {
   const [rows, setRows] = useState<Array<CourseListType>>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
-  const [page, setPage] = useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
-  const [rowLength, setRowLength] = useState<number>(0);
   const [searchInput, setSearchInput] = useState<string>("");
   const [hasSearch, setHasSearch] = useState<boolean>(false);
   const [searchCount, setSearchCount] = useState<number>(0);
   const [tipTab, setTipTab] = useState<boolean>(true);
 
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const handleTipTab = () => {
     setTipTab(!tipTab);
-  };
-
-  const handleChangePage = (event: any, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: any) => {
-    setPage(0);
-    setRowsPerPage(parseInt(event.target.value, 10));
   };
 
   const handleChangeSearchInput = (event: any) => {
@@ -99,6 +89,10 @@ export default function CoursesPage(Props: Props) {
     const config = {
       withCredentials: true,
     };
+
+    const result = regex.test(searchInput);
+    console.log(result);
+
     const [cmd, keyword] = searchInput.split(":");
     const url =
       keyword == null
@@ -107,8 +101,9 @@ export default function CoursesPage(Props: Props) {
     axios.get(url, config).then((res) => {
       const courseList = res.data.courses;
       setRows([...courseList]);
-      setRowLength(courseList.length);
-      setHasSearch(true);
+      if (courseList.length > 0) {
+        setHasSearch(true);
+      }
       setSearchCount(courseList.length);
     });
   };
@@ -120,13 +115,43 @@ export default function CoursesPage(Props: Props) {
     });
   }, []);
 
+  useEffect(() => {
+    const keyword = searchParams.get("keyword");
+    const command = searchParams.get("command");
+
+    if (keyword != null) {
+      if (keyword.length < 2) {
+        alert("2글자 이상 입력해주세요.");
+        return;
+      }
+      const url =
+        command == null
+          ? BASE_URL + `/courses?keyword=${keyword}`
+          : BASE_URL + `/courses?keyword=${keyword}&command=${command}`;
+      const config = {
+        withCredentials: true,
+      };
+      axios.get(url, config).then((res) => {
+        const courseList = res.data.courses;
+        setSearchCount(courseList.length);
+        setHasSearch(true);
+        setRows([...courseList]);
+        setTipTab(false);
+      });
+    }
+  }, []);
+
   const defaultNotice = `현재 ${totalCount}개의 수업이 등록되어 있습니다.`;
   const searchNotice = `${searchCount}개의 수업이 검색 되었습니다.`;
   return (
     <>
       <PageTemplate>
-        <h2 onClick={handleTipTab}>검색 방법</h2>
-        <Tip tipTab={tipTab} />
+        {!hasSearch && (
+          <>
+            <h2 onClick={handleTipTab}>검색 방법</h2>
+            <Tip tipTab={tipTab} />
+          </>
+        )}
         <Stack
           direction="column"
           spacing={2}
