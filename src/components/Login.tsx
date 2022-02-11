@@ -56,7 +56,7 @@ export default function Login(props: LoginProps) {
   const onSubmitHandler = (e: any) => {
     e.preventDefault();
     setLoading(true);
-    const data = { USER_ID: id, PASSWD: pw };
+    const data = { USER_ID: id.toLowerCase(), PASSWD: pw };
     const config = {
       withCredentials: true,
     };
@@ -86,16 +86,6 @@ export default function Login(props: LoginProps) {
     setPw(e.target.value);
   };
 
-  const onCookieCheckHandler = (e: any) => {
-    const config = {
-      withCredentials: true,
-    };
-    axios.get(BASE_URL + "/auth/token", config).then((res) => {
-      console.log(res);
-      console.log(res.data);
-    });
-  };
-
   return (
     <>
       {loading ? (
@@ -121,13 +111,6 @@ export default function Login(props: LoginProps) {
               <Button type="submit" tabIndex={3} width={26}>
                 로그인
               </Button>
-              {/* <Button
-                type="button"
-                tabIndex={4}
-                onClick={onCookieCheckHandler}
-                width={26}>
-                쿠키
-              </Button> */}
             </Stack>
           </LoginWrapper>
           {authAlert && (
