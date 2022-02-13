@@ -1,16 +1,16 @@
 import axios from "axios";
-import * as config from "../config";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import PageTemplate from "../components/PageTemplate";
 import { Stack } from "@mui/material";
+
+import styled from "styled-components";
 
 import SearchInput from "../components/input/SearchInput";
 import SearchButton from "../components/button/SearchButton";
 import Table from "../components/table/Table";
 import Divider from "../components/Divider";
 import { useSearchParams } from "react-router-dom";
-
-const BASE_URL = config.API_BASE_URL as string;
+import { API_BASE_URL } from "../config";
 
 interface Props {}
 
@@ -20,6 +20,20 @@ interface TablePaginationActionsProps {
   rowsPerPage: number;
   onPageChange: (event: any, number: number) => void;
 }
+
+const StyledSelect = styled.select<{ width?: number; height?: number }>`
+  width: ${({ width }) => (width ? width : 12)}rem;
+  // height: 2rem;
+  height: ${({ height }) => (height ? height : 2)}rem;
+  text-align-last: center;
+  text-align: center;
+  border: 0.1rem black solid;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  font-weight: 700;
+`;
+
+const config = { withCredentials: true };
 
 type CourseType = {
   name: string;
@@ -159,7 +173,19 @@ export default function CoursesPage(props: any) {
           justifyContent="center">
           <div>{hasSearch ? searchNotice : defaultNotice}</div>
           <Stack direction="row" spacing={1}>
-            <SearchInput onChange={handleChangeSearchInput} />
+            <SearchTypeSelection onChange={handleSearchTypeSelect} />
+            {searchType != "major" ? (
+              <SearchInput
+                onChange={handleChangeSearchInput}
+                value={searchInput}
+                onKeyPress={handleOnKeyPress}
+              />
+            ) : (
+              <MajorSelection
+                onChange={handleMajorSelect}
+                majorList={majorList}
+              />
+            )}
             <SearchButton onClick={handleSearchButton} />
           </Stack>
           {searchCount > 0 && (
