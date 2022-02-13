@@ -281,6 +281,12 @@ export default function GraduationPage(Props: Props) {
                 <TitleButton onClick={handleGraduationCheckTab}>
                   <h1>졸업 요건</h1>
                 </TitleButton>
+                {load == 0 && (
+                  <div>
+                    <span style={bold}>수강 과목 불러오기</span> 버튼을
+                    눌러주세요!
+                  </div>
+                )}
                 {!isDone && (
                   <>
                     <div>
@@ -289,14 +295,6 @@ export default function GraduationPage(Props: Props) {
                     </div>
                     <br />
                   </>
-                )}
-                {totalCredit == 0 && (
-                  <div>
-                    새내기가 아닌데 수강 과목이 나오지 않는다면,
-                    <br />
-                    <span style={bold}>수강 과목 불러오기</span> 버튼을
-                    눌러주세요!
-                  </div>
                 )}
                 {graduationCheckTab && (
                   <>
