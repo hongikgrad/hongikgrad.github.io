@@ -111,18 +111,25 @@ export default function CoursesPage(props: any) {
     setSearchInput(e.target.value);
   }
 
-    const [cmd, keyword] = searchInput.split(":");
-    const url =
-      keyword == null
-        ? BASE_URL + `/courses?keyword=${searchInput}`
-        : BASE_URL + `/courses?keyword=${keyword}&command=${cmd}`;
+  const handleOnKeyPress = (e: any) => {
+    if (e.key == "Enter") {
+      handleSearchButton();
+    }
+  };
+
+  const search = (type: string, keyword: string) => {
+    const input = keyword ? keyword : searchInput;
+    if (type != "major" && input.length < 2) {
+      alert("2글자 이상 입력해주세요.");
+      return;
+    }
+    const url = `${API_BASE_URL}/courses?type=${type}&keyword=${input}`;
     axios.get(url, config).then((res) => {
-      const courseList = res.data.courses;
-      setRows([...courseList]);
-      if (courseList.length > 0) {
-        setHasSearch(true);
-      }
-      setSearchCount(courseList.length);
+      const result = res.data;
+      const count = result.length;
+      setSearchCount(count);
+      setRows([...res.data]);
+      setHasSearch(true);
     });
   };
 
@@ -164,12 +171,6 @@ export default function CoursesPage(props: any) {
   return (
     <>
       <PageTemplate>
-        {!hasSearch && (
-          <>
-            <h2 onClick={handleTipTab}>검색 방법</h2>
-            <Tip tipTab={tipTab} />
-          </>
-        )}
         <Stack
           direction="column"
           spacing={2}
