@@ -11,8 +11,13 @@ import Table from "../components/table/Table";
 import { API_BASE_URL } from "../config";
 import TitleButton from "../components/button/TitleButton";
 import Divider from "../components/Divider";
+import { Link } from "react-router-dom";
 
 interface Props {}
+
+const config = {
+  withCredentials: true,
+};
 
 const bold = {
   fontWeight: 700,
@@ -116,10 +121,11 @@ function SubField(props: any) {
               alignItems="flex-start"
               spacing="1rem"
               width="100%">
-              <a href={url} target="_blank" rel="noopener noreferrer">
+              <Link to={url}>
                 <h3>{field.field}</h3>
-              </a>
+              </Link>
               <CourseList courses={courses} />
+              <br />
               <br />
             </Stack>
           );
