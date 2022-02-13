@@ -49,63 +49,67 @@ const bold = {
   fontWeight: 700,
 };
 
-type TipType = {
-  tipTab: boolean;
-};
+const courseNameRegex = /^[가-힣a-zA-Z():]{2,}$/;
+const courseNumberRegex = /^[0-9]{3,6}$/;
 
-const regex = /^[가-힣a-zA-Z():]{2,}$/;
-// const regex2 = /^[0-9\b -]{0,13}$/;
-
-function Tip(props: TipType) {
+function SearchTypeSelection(props: any) {
+  const onChange: () => void = props.onChange;
+  const majorList = props.majorList;
   return (
-    <>
-      {props.tipTab && (
-        <>
-          <Divider />
-          <br />
-          <div>
-            <span style={bold}>카테고리</span> 검색
-          </div>
-          <div>ex) cat:사회, cat:전산</div>
-          <br />
-          <div>
-            <span style={bold}>전공</span> 검색
-          </div>
-          <div>ex) major:전자, major:컴퓨터 </div>
-          <br />
-          <Divider />
-          <br />
-        </>
-      )}
-    </>
+    <StyledSelect name="major" onChange={onChange} width={6} height={4}>
+      <option value="name">과목명</option>
+      <option value="number">학수번호</option>
+      <option value="major">전공</option>
+    </StyledSelect>
+  );
+}
+
+function MajorSelection(props: any) {
+  const onChange: () => void = props.onChange;
+  const majorList: any = props.majorList;
+  return (
+    <StyledSelect name="major" onChange={onChange} width={18} height={4}>
+      {majorList.map((major: any, index: number) => {
+        return (
+          <option value={major.id} key={index}>
+            {major.name}
+          </option>
+        );
+      })}
+    </StyledSelect>
   );
 }
 
 export default function CoursesPage(props: any) {
-  const [rows, setRows] = useState<Array<CourseListType>>([]);
+  const [rows, setRows] = useState<Array<any>>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [searchInput, setSearchInput] = useState<string>("");
   const [hasSearch, setHasSearch] = useState<boolean>(false);
   const [searchCount, setSearchCount] = useState<number>(0);
-  const [tipTab, setTipTab] = useState<boolean>(true);
 
   const [searchParams, setSearchParams] = useSearchParams();
+  const [searchType, setSearchType] = useState<string>("name");
 
-  const handleTipTab = () => {
-    setTipTab(!tipTab);
+  const [majorList, setMajorList] = useState<Array<any>>([]);
+
+  const [majorSelect, setMajorSelect] = useState<number>(1);
+
+  const handleChangeSearchInput = (e: any) => {
+    setSearchInput(e.target.value);
   };
 
-  const handleChangeSearchInput = (event: any) => {
-    setSearchInput(event.target.value);
+  const handleSearchButton = () => {
+    search(searchType, searchInput);
   };
 
-  const handleSearchButton = (event: any) => {
-    const config = {
-      withCredentials: true,
-    };
+  const handleSearchTypeSelect = (e: any) => {
+    setSearchType(e.target.value);
+    setSearchInput("");
+  };
 
-    const result = regex.test(searchInput);
-    console.log(result);
+  function handleMajorSelect(e: any) {
+    setSearchInput(e.target.value);
+  }
 
     const [cmd, keyword] = searchInput.split(":");
     const url =
@@ -123,7 +127,7 @@ export default function CoursesPage(props: any) {
   };
 
   useLayoutEffect(() => {
-    const url = `${BASE_URL}/courses/count`;
+    const url = `${API_BASE_URL}/courses/count`;
     axios.get(url).then((res) => {
       setTotalCount(res.data);
     });
