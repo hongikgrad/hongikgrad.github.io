@@ -67,9 +67,24 @@ function MajorSelection(props: any) {
 function AbeekSelection(props: any) {
   const onChange: () => void = props.onChange;
   return (
-    <StyledSelect name="abeek" onChange={onChange} width={4}>
+    <StyledSelect name="abeek" onChange={onChange} width={5}>
       <option value="false">비공학</option>
       <option value="true">공학</option>
+    </StyledSelect>
+  );
+}
+
+function EnterYearSelection(props: any) {
+  const onChange: () => void = props.onChange;
+  return (
+    <StyledSelect onChange={onChange} width={4}>
+      <option value="16">16</option>
+      <option value="17">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+      <option value="21">21</option>
+      <option value="22">22</option>
     </StyledSelect>
   );
 }
