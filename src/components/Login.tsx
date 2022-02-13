@@ -27,7 +27,7 @@ const LoginWrapper = styled.form`
 function Notice(props: any) {
   return (
     <>
-      <p style={{ width: "26rem" }}>
+      <div style={{ width: "26rem" }}>
         <div>본 사이트는 아이디, 비밀번호를 수집하지 않습니다!</div>
         <div>
           Jsoup을 통해 얻어진 쿠키를 이용해 로그인 처리를 하며, 모든 코드는{" "}
@@ -39,7 +39,7 @@ function Notice(props: any) {
           </a>
           에 올라가 있습니다.
         </div>
-      </p>
+      </div>
     </>
   );
 }
