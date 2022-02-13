@@ -176,11 +176,13 @@ export default function GraduationPage(Props: Props) {
   const [takenCourseTab, setOpenCourseTab] = useState<boolean>(true);
   const [graduationCheckTab, setGraduationCheckTab] = useState<boolean>(false);
 
-  const [major, setMajor] = useState<string>("ENG_EE");
+  const [majorId, setMajorId] = useState<number>(-1);
+  const [majorList, setMajorList] = useState<Array<any>>([]);
   const [abeek, setAbeek] = useState<string>("false");
   const [requirements, setRequirements] = useState<any>([]);
   const [isDone, setDone] = useState<boolean>(false);
   const [load, setLoad] = useState<number>(0);
+  const [enterYear, setEnterYear] = useState<number>(16);
 
   const handleTakenCourseTab = () => {
     setOpenCourseTab(!takenCourseTab);
@@ -191,30 +193,15 @@ export default function GraduationPage(Props: Props) {
   };
 
   const handleMajorSelect = (e: any) => {
-    setMajor(e.target.value);
+    setMajorId(e.target.value);
   };
 
   const handleAbeekSelect = (e: any) => {
     setAbeek(e.target.value);
   };
 
-  const handleGraduationCheck = () => {
-    const url =
-      API_BASE_URL + `/users/graduation?major=${major}&abeek=${abeek}`;
-    const config = {
-      withCredentials: true,
-    };
-
-    axios
-      .get(url, config)
-      .then((res) => {
-        const data = res.data;
-        setRequirements([...data]);
-      })
-      .then(() => {
-        setGraduationCheckTab(true);
-        setDone(true);
-      });
+  const handleEnterYearSelect = (e: any) => {
+    setEnterYear(e.target.value);
   };
 
   const handleLoadButton = () => {
@@ -225,34 +212,60 @@ export default function GraduationPage(Props: Props) {
     axios
       .post(url, null, config)
       .then((res) => {
-        alert("과목 불러오기 성공!");
+        setCourses([...res.data.courses]);
+        setTotalCount(res.data.totalCount);
+        setTotalCredit(res.data.totalCredit);
         setLoad(load + 1);
+        alert("과목 불러오기 성공!");
       })
       .catch((e) => {
-        alert("과목 불러오기 실패..");
+        alert("과목 불러오기 실패\n문제가 계속 되시면 다시 로그인 해주세요!");
+      });
+  };
+
+  const handleGraduationCheckButton = () => {
+    const url = `${API_BASE_URL}/users/graduation`;
+    const data = {
+      // major
+      majorId: majorId,
+      isAbeek: abeek,
+      courseList: courses,
+      enterYear: enterYear,
+    };
+    axios
+      .post(url, data, config)
+      .then((res) => {
+        setRequirements([...res.data]);
+      })
+      .then(() => {
+        setGraduationCheckTab(true);
+        setDone(true);
       });
   };
 
   useEffect(() => {
-    const url = API_BASE_URL + "/users/courses";
-    const config = {
-      withCredentials: true,
-    };
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
 
+    const url = `${API_BASE_URL}/majors`;
+    axios.get(url, config).then((res) => {
+      setMajorList([...res.data]);
+    });
+
+    const loadUrl = API_BASE_URL + `/users/courses`;
     axios
-      .get(url, config)
+      .post(loadUrl, null, config)
       .then((res) => {
+        setCourses([...res.data.courses]);
         setTotalCount(res.data.totalCount);
         setTotalCredit(res.data.totalCredit);
-        setCourses([...res.data.courses]);
+        setLoad(load + 1);
       })
-      .then((res) => {
+      .then(() => {
         setLoading(false);
-      })
-      .catch((e) => {
-        console.log(e);
       });
-  }, [load]);
+  }, []);
 
   return (
     <>
@@ -265,12 +278,16 @@ export default function GraduationPage(Props: Props) {
               <Stack
                 direction="row"
                 justifyContent="center"
-                spacing="1rem"
+                spacing="0.1rem"
                 width="100%">
-                <MajorSelection onChange={handleMajorSelect} />
+                <EnterYearSelection onChange={handleEnterYearSelect} />
+                <MajorSelection
+                  onChange={handleMajorSelect}
+                  majorList={majorList}
+                />
                 <AbeekSelection onChange={handleAbeekSelect} />
                 <Button
-                  onClick={handleGraduationCheck}
+                  onClick={handleGraduationCheckButton}
                   color="#fff"
                   width={5}
                   height={2}>
