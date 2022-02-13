@@ -11,11 +11,11 @@ import CoursesPage from "./pages/CoursesPage";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./modules";
 import ProtectedRoute from "./lib/ProtectedRoute";
-import LoginProtectRoute from "./lib/LoginProtectRoute";
 import { useEffect, useState } from "react";
 import { API_BASE_URL } from "./config";
 import axios from "axios";
 import { loginUser, logoutUser } from "./modules/auth";
+import AdminPage from "./pages/AdminPage";
 
 export interface AppProps {}
 
@@ -28,12 +28,7 @@ export default function App(props: AppProps) {
       <Router>
         <Routes location={location}>
           <Route path="/" element={<MainPage />} />
-          <Route
-            path="/login"
-            element={
-              <LoginProtectRoute isLogin={isLogin} outlet={<LoginPage />} />
-            }
-          />
+          <Route path="/login" element={<LoginPage />} />
           <Route
             path="/users/courses"
             element={
@@ -47,6 +42,7 @@ export default function App(props: AppProps) {
             }
           />
           <Route path="/courses" element={<CoursesPage />} />
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </Router>
     </>
