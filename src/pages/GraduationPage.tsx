@@ -47,14 +47,19 @@ function NotFound(props: any) {
 
 function MajorSelection(props: any) {
   const onChange: () => void = props.onChange;
+  const majorList = props.majorList;
   return (
-    <StyledSelect name="major" onChange={onChange}>
-      <option value="ENG_EE">전자전기공학부</option>
-      <option value="ENG_CS">컴퓨터공학과</option>
-      <option value="ENG_IE">산업공학과</option>
-      <option value="ENG_CHE">화학공학과</option>
-      <option value="ENG_ME">기계시스템공학부</option>
-      <option value="ENG_MSE">신소재공학과</option>
+    <StyledSelect name="major" onChange={onChange} width={12}>
+      <option value={-1}>전공을 선택해주세요.</option>
+      {majorList.map((major: any, index: number) => {
+        return (
+          major.enable == 1 && (
+            <option key={index} value={major.id}>
+              {major.name}
+            </option>
+          )
+        );
+      })}
     </StyledSelect>
   );
 }
