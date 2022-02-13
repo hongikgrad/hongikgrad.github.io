@@ -145,14 +145,16 @@ function GraduationRequirements(props: any) {
           <Stack alignItems="center" key={index} width="100%">
             <div style={req.isSatisfied ? satisfied : notSatisfied}>
               <h2>{req.mainField}</h2>
-              <div>
-                <span style={bold}>{req.totalCredit}</span>학점 수강
-              </div>
+              {req.totalCount && (
+                <div>
+                  <span style={bold}>{req.totalCredit}</span>학점 수강
+                </div>
+              )}
             </div>
             <div
               className="briefing"
               style={req.isSatisfied ? satisfied : notSatisfied}>
-              <p>{req.briefing}</p>
+              <div>{req.briefing}</div>
             </div>
             <div className="subfields" style={{ width: "100%" }}>
               <SubField subfield={subfield} />
