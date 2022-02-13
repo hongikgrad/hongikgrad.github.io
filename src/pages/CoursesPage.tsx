@@ -138,32 +138,24 @@ export default function CoursesPage(props: any) {
     axios.get(url).then((res) => {
       setTotalCount(res.data);
     });
+
+    const majorListUrl = `${API_BASE_URL}/majors`;
+    axios.get(majorListUrl, config).then((res) => {
+      setMajorList([...res.data]);
+    });
   }, []);
 
-  useEffect(() => {
+  const init = () => {
+    // 직접 접근
     const keyword = searchParams.get("keyword");
-    const command = searchParams.get("command");
+    const type = searchParams.get("type");
 
-    if (keyword != null) {
-      if (keyword.length < 2) {
-        alert("2글자 이상 입력해주세요.");
-        return;
-      }
-      const url =
-        command == null
-          ? BASE_URL + `/courses?keyword=${keyword}`
-          : BASE_URL + `/courses?keyword=${keyword}&command=${command}`;
-      const config = {
-        withCredentials: true,
-      };
-      axios.get(url, config).then((res) => {
-        const courseList = res.data.courses;
-        setSearchCount(courseList.length);
-        setHasSearch(true);
-        setRows([...courseList]);
-        setTipTab(false);
-      });
-    }
+    setSearchInput(keyword ? keyword : "");
+    if (keyword != null) search(type ? type : "", keyword ? keyword : "");
+  };
+
+  useEffect(() => {
+    init();
   }, []);
 
   const defaultNotice = `현재 ${totalCount}개의 수업이 등록되어 있습니다.`;
