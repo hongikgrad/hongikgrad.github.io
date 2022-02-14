@@ -232,15 +232,19 @@ export default function GraduationPage(Props: Props) {
       courseList: courses,
       enterYear: enterYear,
     };
-    axios
-      .post(url, data, config)
-      .then((res) => {
-        setRequirements([...res.data]);
-      })
-      .then(() => {
-        setGraduationCheckTab(true);
-        setDone(true);
-      });
+    if (majorId != -1) {
+      axios
+        .post(url, data, config)
+        .then((res) => {
+          setRequirements([...res.data]);
+        })
+        .then(() => {
+          setGraduationCheckTab(true);
+          setDone(true);
+        });
+    } else {
+      alert("전공을 선택해주세요.");
+    }
   };
 
   useEffect(() => {
@@ -289,7 +293,7 @@ export default function GraduationPage(Props: Props) {
                 <Button
                   onClick={handleGraduationCheckButton}
                   color="#fff"
-                  width={5}
+                  width={6}
                   height={2}>
                   검사하기
                 </Button>
