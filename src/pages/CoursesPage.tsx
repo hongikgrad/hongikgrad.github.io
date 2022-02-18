@@ -94,6 +94,8 @@ export default function CoursesPage(props: any) {
 
   const [majorSelect, setMajorSelect] = useState<number>(1);
 
+  const [isDirect, setIsDirect] = useState<boolean>(false);
+
   const handleChangeSearchInput = (e: any) => {
     setSearchInput(e.target.value);
   };
@@ -119,7 +121,7 @@ export default function CoursesPage(props: any) {
 
   const search = (type: string, keyword: string) => {
     const input = keyword ? keyword : searchInput;
-    if (type != "major" && input.length < 2) {
+    if (type != "major" && type != "required" && input.length < 2) {
       alert("2글자 이상 입력해주세요.");
       return;
     }
@@ -151,7 +153,10 @@ export default function CoursesPage(props: any) {
     const type = searchParams.get("type");
 
     setSearchInput(keyword ? keyword : "");
-    if (keyword != null) search(type ? type : "", keyword ? keyword : "");
+    if (keyword != null) {
+      setIsDirect(true);
+      search(type ? type : "", keyword ? keyword : "");
+    }
   };
 
   useEffect(() => {
@@ -170,20 +175,24 @@ export default function CoursesPage(props: any) {
           justifyContent="center">
           <div>{hasSearch ? searchNotice : defaultNotice}</div>
           <Stack direction="row" spacing={1}>
-            <SearchTypeSelection onChange={handleSearchTypeSelect} />
-            {searchType != "major" ? (
-              <SearchInput
-                onChange={handleChangeSearchInput}
-                value={searchInput}
-                onKeyPress={handleOnKeyPress}
-              />
-            ) : (
-              <MajorSelection
-                onChange={handleMajorSelect}
-                majorList={majorList}
-              />
+            {!isDirect && (
+              <>
+                <SearchTypeSelection onChange={handleSearchTypeSelect} />
+                {searchType != "major" ? (
+                  <SearchInput
+                    onChange={handleChangeSearchInput}
+                    value={searchInput}
+                    onKeyPress={handleOnKeyPress}
+                  />
+                ) : (
+                  <MajorSelection
+                    onChange={handleMajorSelect}
+                    majorList={majorList}
+                  />
+                )}
+                <SearchButton onClick={handleSearchButton} />
+              </>
             )}
-            <SearchButton onClick={handleSearchButton} />
           </Stack>
           {searchCount > 0 && (
             <Table rows={rows} columns={["과목명", "학수번호", "학점"]} />
