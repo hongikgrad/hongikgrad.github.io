@@ -121,9 +121,10 @@ function SubField(props: any) {
               alignItems="flex-start"
               spacing="1rem"
               width="100%">
-              <Link to={url}>
+              <a href={url} target="_blank" rel="noreferrer noopener">
                 <h3>{field.field}</h3>
-              </Link>
+              </a>
+              <div>{field.totalCredit}학점 수강</div>
               <CourseList courses={courses} />
               <br />
               <br />
@@ -145,11 +146,10 @@ function GraduationRequirements(props: any) {
           <Stack alignItems="center" key={index} width="100%">
             <div style={req.isSatisfied ? satisfied : notSatisfied}>
               <h2>{req.mainField}</h2>
-              {req.totalCount && (
-                <div>
-                  <span style={bold}>{req.totalCredit}</span>학점 수강
-                </div>
-              )}
+              <div>
+                <span style={bold}>{req.totalCredit}</span>학점 수강
+              </div>
+              <br />
             </div>
             <div
               className="briefing"
@@ -204,23 +204,26 @@ export default function GraduationPage(Props: Props) {
     setEnterYear(e.target.value);
   };
 
-  const handleLoadButton = () => {
+  const handleLoadButton = async () => {
     const url = API_BASE_URL + `/users/courses`;
     const config = {
       withCredentials: true,
     };
-    axios
-      .post(url, null, config)
-      .then((res) => {
-        setCourses([...res.data.courses]);
-        setTotalCount(res.data.totalCount);
-        setTotalCredit(res.data.totalCredit);
-        setLoad(load + 1);
-        alert("과목 불러오기 성공!");
-      })
-      .catch((e) => {
-        alert("과목 불러오기 실패\n문제가 계속 되시면 다시 로그인 해주세요!");
-      });
+    await requestUserCourse();
+    alert("과복 불러오기 성공!");
+
+    // axios
+    //   .post(url, null, config)
+    //   .then((res) => {
+    //     setCourses([...res.data.courses]);
+    //     setTotalCount(res.data.totalCount);
+    //     setTotalCredit(res.data.totalCredit);
+    //     setLoad(load + 1);
+    //     alert("과목 불러오기 성공!");
+    //   })
+    //   .catch((e) => {
+    //     alert("과목 불러오기 실패\n문제가 계속 되시면 다시 로그인 해주세요!");
+    //   });
   };
 
   const handleGraduationCheckButton = () => {
@@ -247,6 +250,36 @@ export default function GraduationPage(Props: Props) {
     }
   };
 
+  const requestUserCourse = async () => {
+    const url = API_BASE_URL + `/users/courses`;
+    const config = {
+      withCredentials: true,
+    };
+    try {
+      const res = await axios.post(url, null, config);
+      setCourses([...res.data.courses]);
+      setTotalCount(res.data.totalCount);
+      setTotalCredit(res.data.totalCredit);
+      setLoad(load + 1);
+      setLoading(false);
+    } catch (e: any) {
+      const res = await axios.post(url, null, config);
+      setCourses([...res.data.courses]);
+      setTotalCount(res.data.totalCount);
+      setTotalCredit(res.data.totalCredit);
+      setLoad(load + 1);
+      setLoading(false);
+    }
+
+    // return axios.post(url, null, config).then((res) => {
+    //   setCourses([...res.data.courses]);
+    //   setTotalCount(res.data.totalCount);
+    //   setTotalCredit(res.data.totalCredit);
+    //   setLoad(load + 1);
+    //   alert("과목 불러오기 성공!");
+    // });
+  };
+
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
@@ -258,17 +291,24 @@ export default function GraduationPage(Props: Props) {
     });
 
     const loadUrl = API_BASE_URL + `/users/courses`;
-    axios
-      .post(loadUrl, null, config)
-      .then((res) => {
-        setCourses([...res.data.courses]);
-        setTotalCount(res.data.totalCount);
-        setTotalCredit(res.data.totalCredit);
-        setLoad(load + 1);
-      })
-      .then(() => {
-        setLoading(false);
-      });
+    // axios
+    //   .post(loadUrl, null, config)
+    //   .then((res) => {
+    //     console.log(res.status);
+    //     setCourses([...res.data.courses]);
+    //     setTotalCount(res.data.totalCount);
+    //     setTotalCredit(res.data.totalCredit);
+    //     setLoad(load + 1);
+    //   })
+    requestUserCourse();
+    // requestUserCourse
+    //   .then(() => {
+    //     setLoading(false);
+    //   })
+    //   .catch((e: any) => {
+    //     console.log("실패.. 재도전!!");
+    //     handleLoadButton();
+    //   });
   }, []);
 
   return (
