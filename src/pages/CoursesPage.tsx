@@ -119,13 +119,13 @@ export default function CoursesPage(props: any) {
     }
   };
 
-  const search = (type: string, keyword: string) => {
+  const search = (type: string, keyword: string, year?: string) => {
     const input = keyword ? keyword : searchInput;
     if (type != "major" && type != "required" && input.length < 2) {
       alert("2글자 이상 입력해주세요.");
       return;
     }
-    const url = `${API_BASE_URL}/courses?type=${type}&keyword=${input}`;
+    const url = `${API_BASE_URL}/courses?type=${type}&keyword=${input}&year=${year}`;
     axios.get(url, config).then((res) => {
       const result = res.data;
       const count = result.length;
@@ -151,11 +151,12 @@ export default function CoursesPage(props: any) {
     // 직접 접근
     const keyword = searchParams.get("keyword");
     const type = searchParams.get("type");
+    const year = searchParams.get("year");
 
     setSearchInput(keyword ? keyword : "");
     if (keyword != null) {
       setIsDirect(true);
-      search(type ? type : "", keyword ? keyword : "");
+      search(type ? type : "", keyword ? keyword : "", year ? year : "");
     }
   };
 
