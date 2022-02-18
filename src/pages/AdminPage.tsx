@@ -88,7 +88,6 @@ export default function AdminPage(props: any) {
   const [majorList, setMajorList] = useState<any>([]);
   const [major, setMajor] = useState<majorType>();
   const [majorId, setMajorId] = useState<number>(1);
-  const [majorCourseList, setMajorCourseList] = useState<Array<any>>([]);
   const [changeToggle, setChangeToggle] = useState<boolean>(false);
   const config = {
     withCredentials: true,
@@ -187,25 +186,6 @@ export default function AdminPage(props: any) {
   };
 
   useEffect(() => {
-    /* 전공 리스트 불러오기 */
-    // const majorListUrl = BASE_URL + `/admin/majors`;
-    // axios.get(majorListUrl, config).then((res) => {
-    //   setMajorList([...res.data]);
-    // });
-
-    /* 전공 과목 리스트 불러오기 */
-    const majorCourseListUrl = BASE_URL + `/admin/majors/${majorId}/courses`;
-    axios.get(majorCourseListUrl, config).then((res) => {
-      setMajorCourseList([...res.data]);
-    });
-
-    // const majorUrl = `${BASE_URL}/admin/majors/${majorId}`;
-    // axios.get(majorUrl, config).then((res) => {
-    //   setMajor(res.data);
-    // });
-  }, [majorId, changeToggle]);
-
-  useEffect(() => {
     /* 초기 렌더링 */
     const keyword = searchParams.get("keyword");
     const command = searchParams.get("command");
@@ -217,10 +197,10 @@ export default function AdminPage(props: any) {
     // });
 
     /* 전공 과목 리스트 불러오기 */
-    const majorCourseListUrl = BASE_URL + `/admin/majors/${majorId}/courses`;
-    axios.get(majorCourseListUrl, config).then((res) => {
-      setMajorCourseList([...res.data]);
-    });
+    // const majorCourseListUrl = BASE_URL + `/admin/majors/${majorId}/courses`;
+    // axios.get(majorCourseListUrl, config).then((res) => {
+    //   setMajorCourseList([...res.data]);
+    // });
 
     if (keyword != null) {
       if (keyword.length < 2) {
@@ -260,8 +240,6 @@ export default function AdminPage(props: any) {
           />
           <div>{major && major.name} 전공과목 리스트</div>
           <EditableMajorCourseTable
-            rows={majorCourseList}
-            columns={["ID", "과목명", "학수번호", "학점"]}
             majorId={majorId}
             handleDeleteButton={handleDeleteMajorCourse}
           />
