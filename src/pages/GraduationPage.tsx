@@ -259,11 +259,25 @@ export default function GraduationPage(Props: Props) {
     }
   };
 
+  const requestUserCourseV2 = async () => {
+    const url = `${API_BASE_URL}/users/courses/v2`;
+    try {
+      const res = await axios.post(url, authCookieData, config);
+      setCourses([...res.data.courses]);
+      setTotalCount(res.data.totalCount);
+      setTotalCredit(res.data.totalCredit);
+      setLoad(load + 1);
+      setLoading(false);
+    } catch (e: any) {
+      setLoading(false);
+      alert("이수 과목 불러오기를 실패하였습니다.");
+    }
+  };
+
   useEffect(() => {
     setTimeout(() => {
       if (loadingRef.current) {
-        alert("서버와의 통신이 원할하지 않습니다.");
-        navigate(-1);
+        requestUserCourseV2();
       }
     }, 3000);
 
