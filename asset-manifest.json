@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/static/css/main.ecd972f9.chunk.css",
-    "main.js": "/static/js/main.7b2d7499.chunk.js",
-    "main.js.map": "/static/js/main.7b2d7499.chunk.js.map",
+    "main.js": "/static/js/main.001c85d0.chunk.js",
+    "main.js.map": "/static/js/main.001c85d0.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.2e7bdbe2.js",
     "runtime-main.js.map": "/static/js/runtime-main.2e7bdbe2.js.map",
-    "static/js/2.206af535.chunk.js": "/static/js/2.206af535.chunk.js",
-    "static/js/2.206af535.chunk.js.map": "/static/js/2.206af535.chunk.js.map",
+    "static/js/2.32dfe3e6.chunk.js": "/static/js/2.32dfe3e6.chunk.js",
+    "static/js/2.32dfe3e6.chunk.js.map": "/static/js/2.32dfe3e6.chunk.js.map",
     "static/js/3.3597499d.chunk.js": "/static/js/3.3597499d.chunk.js",
     "static/js/3.3597499d.chunk.js.map": "/static/js/3.3597499d.chunk.js.map",
     "index.html": "/index.html",
     "static/css/main.ecd972f9.chunk.css.map": "/static/css/main.ecd972f9.chunk.css.map",
-    "static/js/2.206af535.chunk.js.LICENSE.txt": "/static/js/2.206af535.chunk.js.LICENSE.txt",
+    "static/js/2.32dfe3e6.chunk.js.LICENSE.txt": "/static/js/2.32dfe3e6.chunk.js.LICENSE.txt",
     "static/media/App.css": "/static/media/GothamSSm-BookItalic.de656b78.woff"
   },
   "entrypoints": [
     "static/js/runtime-main.2e7bdbe2.js",
-    "static/js/2.206af535.chunk.js",
+    "static/js/2.32dfe3e6.chunk.js",
     "static/css/main.ecd972f9.chunk.css",
-    "static/js/main.7b2d7499.chunk.js"
+    "static/js/main.001c85d0.chunk.js"
   ]
 }
