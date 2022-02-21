@@ -66,7 +66,7 @@ export default function Login(props: LoginProps) {
       .then((res) => {
         setLoading(false);
         if (res.status == 200) {
-          dispatch(loginUser());
+          dispatch(loginUser(res.data));
           navigate(-1);
         } else {
           setAuthAlert(true);

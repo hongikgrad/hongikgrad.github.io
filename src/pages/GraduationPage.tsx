@@ -1,7 +1,7 @@
 import { Stack } from "@mui/material";
 import styled from "styled-components";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Navigate, useNavigate } from "react-router";
 import Button from "../components/button/Button";
 import TextButton from "../components/button/TextButton";
@@ -12,6 +12,8 @@ import { API_BASE_URL } from "../config";
 import TitleButton from "../components/button/TitleButton";
 import Divider from "../components/Divider";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../modules";
 
 interface Props {}
 
@@ -169,7 +171,11 @@ function GraduationRequirements(props: any) {
 }
 
 export default function GraduationPage(Props: Props) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(true);
+  const loadingRef = useRef(loading);
+  loadingRef.current = loading;
   const [totalCount, setTotalCount] = useState<number>(0);
   const [totalCredit, setTotalCredit] = useState<number>(0);
   const [courses, setCourses] = useState<any>([]);
@@ -183,6 +189,9 @@ export default function GraduationPage(Props: Props) {
   const [isDone, setDone] = useState<boolean>(false);
   const [load, setLoad] = useState<number>(0);
   const [enterYear, setEnterYear] = useState<number>(16);
+  const authCookieData = useSelector(
+    (state: RootState) => state.auth.authCookie
+  );
 
   const handleTakenCourseTab = () => {
     setOpenCourseTab(!takenCourseTab);
@@ -205,46 +214,23 @@ export default function GraduationPage(Props: Props) {
   };
 
   const handleLoadButton = async () => {
-    const url = API_BASE_URL + `/users/courses`;
-    const config = {
-      withCredentials: true,
-    };
     await requestUserCourse();
     alert("과복 불러오기 성공!");
-
-    // axios
-    //   .post(url, null, config)
-    //   .then((res) => {
-    //     setCourses([...res.data.courses]);
-    //     setTotalCount(res.data.totalCount);
-    //     setTotalCredit(res.data.totalCredit);
-    //     setLoad(load + 1);
-    //     alert("과목 불러오기 성공!");
-    //   })
-    //   .catch((e) => {
-    //     alert("과목 불러오기 실패\n문제가 계속 되시면 다시 로그인 해주세요!");
-    //   });
   };
 
-  const handleGraduationCheckButton = () => {
+  const handleGraduationCheckButton = async () => {
     const url = `${API_BASE_URL}/users/graduation`;
     const data = {
-      // major
       majorId: majorId,
       isAbeek: abeek,
       courseList: courses,
       enterYear: enterYear,
     };
     if (majorId != -1) {
-      axios
-        .post(url, data, config)
-        .then((res) => {
-          setRequirements([...res.data]);
-        })
-        .then(() => {
-          setGraduationCheckTab(true);
-          setDone(true);
-        });
+      const response = await axios.post(url, data, config);
+      setRequirements([...response.data]);
+      setGraduationCheckTab(true);
+      setDone(true);
     } else {
       alert("전공을 선택해주세요.");
     }
@@ -254,61 +240,41 @@ export default function GraduationPage(Props: Props) {
     const url = API_BASE_URL + `/users/courses`;
     const config = {
       withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
     };
+
     try {
-      const res = await axios.post(url, null, config);
+      const res = await axios.post(url, authCookieData, config);
       setCourses([...res.data.courses]);
       setTotalCount(res.data.totalCount);
       setTotalCredit(res.data.totalCredit);
       setLoad(load + 1);
       setLoading(false);
     } catch (e: any) {
-      const res = await axios.post(url, null, config);
+      const res = await axios.post(url, authCookieData, config);
       setCourses([...res.data.courses]);
       setTotalCount(res.data.totalCount);
       setTotalCredit(res.data.totalCredit);
       setLoad(load + 1);
       setLoading(false);
     }
-
-    // return axios.post(url, null, config).then((res) => {
-    //   setCourses([...res.data.courses]);
-    //   setTotalCount(res.data.totalCount);
-    //   setTotalCredit(res.data.totalCredit);
-    //   setLoad(load + 1);
-    //   alert("과목 불러오기 성공!");
-    // });
   };
 
   useEffect(() => {
     setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+      if (loadingRef.current) {
+        alert("서버와의 통신이 원할하지 않습니다.");
+        navigate(-1);
+      }
+    }, 3000);
 
     const url = `${API_BASE_URL}/majors`;
     axios.get(url, config).then((res) => {
       setMajorList([...res.data]);
     });
-
-    const loadUrl = API_BASE_URL + `/users/courses`;
-    // axios
-    //   .post(loadUrl, null, config)
-    //   .then((res) => {
-    //     console.log(res.status);
-    //     setCourses([...res.data.courses]);
-    //     setTotalCount(res.data.totalCount);
-    //     setTotalCredit(res.data.totalCredit);
-    //     setLoad(load + 1);
-    //   })
     requestUserCourse();
-    // requestUserCourse
-    //   .then(() => {
-    //     setLoading(false);
-    //   })
-    //   .catch((e: any) => {
-    //     console.log("실패.. 재도전!!");
-    //     handleLoadButton();
-    //   });
   }, []);
 
   return (
