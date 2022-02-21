@@ -190,18 +190,6 @@ export default function AdminPage(props: any) {
     const keyword = searchParams.get("keyword");
     const command = searchParams.get("command");
 
-    /* 전공 리스트 불러오기 */
-    // const majorListUrl = BASE_URL + `/admin/majors`;
-    // axios.get(majorListUrl, config).then((res) => {
-    //   setMajorList([...res.data]);
-    // });
-
-    /* 전공 과목 리스트 불러오기 */
-    // const majorCourseListUrl = BASE_URL + `/admin/majors/${majorId}/courses`;
-    // axios.get(majorCourseListUrl, config).then((res) => {
-    //   setMajorCourseList([...res.data]);
-    // });
-
     if (keyword != null) {
       if (keyword.length < 2) {
         alert("2글자 이상 입력해주세요.");

@@ -47,7 +47,7 @@ export default function PageTemplate(props: PageTemplateProps) {
 
   React.useEffect(() => {
     setVh();
-    dispatch(setMenuClose());
+    // dispatch(setMenuClose());
   }, []);
   return (
     <PageStyle id="layout">

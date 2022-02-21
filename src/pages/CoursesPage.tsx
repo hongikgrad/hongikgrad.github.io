@@ -12,15 +12,6 @@ import Divider from "../components/Divider";
 import { useSearchParams } from "react-router-dom";
 import { API_BASE_URL } from "../config";
 
-interface Props {}
-
-interface TablePaginationActionsProps {
-  count: number;
-  page: number;
-  rowsPerPage: number;
-  onPageChange: (event: any, number: number) => void;
-}
-
 const StyledSelect = styled.select<{ width?: number; height?: number }>`
   width: ${({ width }) => (width ? width : 12)}rem;
   // height: 2rem;
