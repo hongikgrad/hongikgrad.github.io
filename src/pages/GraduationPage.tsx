@@ -20,7 +20,8 @@ interface Props {}
 const config = {
   withCredentials: true,
   headers: {
-    "Content-Type": "application/json",
+    "Content-Type": "application/json;charset=UTF-8",
+    Accept: "application/json",
   },
 };
 
@@ -241,7 +242,6 @@ export default function GraduationPage(Props: Props) {
 
   const requestUserCourse = async () => {
     const url = API_BASE_URL + `/users/courses`;
-
     try {
       const res = await axios.post(url, authCookieData, config);
       setCourses([...res.data.courses]);
