@@ -6,29 +6,33 @@ const LOGIN_USER = "USER/login_user";
 const LOGOUT_USER = "USER/logout_user";
 const AUTH_USER = "USER/auth";
 
-const BASE_URL = config.API_BASE_URL as string;
-
-// type LoginDataProps = {
-//   USER_ID: string;
-// };
-
-type LoginDataProps = {
-  isLogin: boolean;
+type AuthCookieProps = {
+  JSESSIONID: string;
+  SUSER_AUTH: string;
+  SUSER_AUTHKEY: string;
+  SUSER_EXTAUTH: string;
+  SUSER_GUBUN: string;
+  SUSER_ID: string;
+  SUSER_LAST: string;
+  SUSER_LAST_IP: string;
+  SUSER_LIMIT: string;
+  SUSER_LOGID: string;
+  SUSER_LOGKEY: string;
+  SUSER_NAME: string;
+  WMONID: string;
+  hongik_abeek_sso: string;
 };
 
-export function loginUser() {
+export function loginUser(authCookieData: AuthCookieProps) {
   return {
     type: LOGIN_USER,
-    // payload: isLogin,
+    payload: authCookieData,
   };
 }
 
 export function logoutUser() {
-  // const request = axios.delete(`auth/token`).then((response) => response.data);
-
   return {
     type: LOGOUT_USER,
-    // payload: false,
   };
 }
 
@@ -49,21 +53,36 @@ type AuthAction =
 type AuthState = {
   state: boolean;
   isLogin: boolean;
+  authCookie: AuthCookieProps;
 };
 
 const initialState: AuthState = {
   state: false,
   isLogin: false,
+  authCookie: {
+    JSESSIONID: "",
+    SUSER_AUTH: "",
+    SUSER_AUTHKEY: "",
+    SUSER_EXTAUTH: "",
+    SUSER_GUBUN: "",
+    SUSER_ID: "",
+    SUSER_LAST: "",
+    SUSER_LAST_IP: "",
+    SUSER_LIMIT: "",
+    SUSER_LOGID: "",
+    SUSER_LOGKEY: "",
+    SUSER_NAME: "",
+    WMONID: "",
+    hongik_abeek_sso: "",
+  },
 };
 
-export default function (state: AuthState = initialState, action: AuthAction) {
+export default function (state: AuthState = initialState, action: any) {
   switch (action.type) {
     case LOGIN_USER:
-      return { ...state, isLogin: true };
-    // case AUTH_USER:
-    //   return { ...state, userData: action.payload };
+      return { ...state, isLogin: true, authCookie: action.payload };
     case LOGOUT_USER:
-      return { ...state, isLogin: false };
+      return { ...state, isLogin: false, authCookie: initialState.authCookie };
     default:
       return state;
   }
